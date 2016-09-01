@@ -1,1 +1,4 @@
 server/node_modules
+saac/node_modules/
+saac/platforms/
+saac/plugins/
