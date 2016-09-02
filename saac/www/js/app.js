@@ -1,13 +1,9 @@
-// Ionic Starter App
+angular.module('saac', ['ionic', 'saac.config', 'saac.stream', 'saac.events', 'saac.photo', 'saac.leader', 'saac.account'])
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('saac', ['ionic', 'saac.stream', 'saac.events', 'saac.leader', 'saac.account'])
+.run(function ($rootScope, $ionicPlatform, $http, SERVER_URL) {
 
-.run(function($ionicPlatform) {
+  $rootScope.server = {url: SERVER_URL}
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -33,12 +29,27 @@ angular.module('saac', ['ionic', 'saac.stream', 'saac.events', 'saac.leader', 's
 
   // setup an abstract state for the tabs directive
     .state('tab', {
-    url: '/tab',
-    abstract: true,
-    templateUrl: 'templates/tabs.html'
-  });
+      url: '/tab',
+      abstract: true,
+      templateUrl: 'templates/tabs.html'
+    })
+
+    .state('welcome', {
+      url: "/welcome",
+      abstract: true,
+      templateUrl: 'templates/welcome.html'
+    })
+
+    .state('welcome.start', {
+      url: "/start",
+      views: {
+        'welcome-content': {
+          templateUrl: 'templates/start.html'
+        }
+      }
+    });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/welcome/start');
 
 });
