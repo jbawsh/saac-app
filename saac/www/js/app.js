@@ -44,12 +44,19 @@ angular.module('saac', ['ionic', 'saac.config', 'saac.stream', 'saac.events', 's
       url: "/start",
       views: {
         'welcome-content': {
-          templateUrl: 'templates/start.html'
+          templateUrl: 'templates/start.html',
+          controller: 'StartCtrl'
         }
       }
-    });
+    })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/welcome/start');
 
+  })
+
+  .controller('StartCtrl', function ($scope, $state) {
+    $scope.fbLogin = function () {
+      $state.go('tab.stream');
+    }
 });
