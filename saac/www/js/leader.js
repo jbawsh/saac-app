@@ -1,4 +1,4 @@
-angular.module('saac.leader', [])
+	angular.module('saac.leader', [])
 
 	// Routes
 	.config(function ($stateProvider) {

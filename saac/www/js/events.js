@@ -1,4 +1,4 @@
-angular.module('saac.events', [])
+  angular.module('saac.events', [])
 
 	//Routes
 	.config(function ($stateProvider) {
