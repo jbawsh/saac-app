@@ -53,7 +53,7 @@ angular.module('saac', ['ionic', 'saac.config', 'saac.stream', 'saac.events', 's
     })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/welcome/start');
+  $urlRouterProvider.otherwise('/tab/stream');
 
   })
 

@@ -1,4 +1,4 @@
-angular.module('saac.photo', ['saac.s3Uploader'])
+angular.module('saac.photo', ['saac.s3uploader'])
 
 	// Routes
 	.config(function ($stateProvider) {
@@ -16,8 +16,26 @@ angular.module('saac.photo', ['saac.s3Uploader'])
   			})
 	})
 
+	.factory('Picture', function ($http, $rootScope) {
+		return {
+			all: function() {
+				return $http.get($rootScope.server.url + '/photos');
+			},
+			create: function(picture) {
+				return $http.post($rootScope.server.url + '/photos', picture);
+			}/*,
+			deleteAll: function(pictureId) {
+				return $http.delete($rootScope.server.url + '/pictures');
+			}*/
+		};
+	})
+
 	//Controllers
-	.controller('PhotoCtrl', function ($scope, $window, $ionicPopup, S3Uploader) {
+	.controller('PhotoCtrl', function ($scope, $window, $ionicPopup, S3Uploader, Picture) {
+
+		/*Picture.all().success(function(pictures) {
+			$scope.pictures = pictures;
+		});*/
 
 		$scope.addPicture = function (from) {
 
@@ -47,7 +65,9 @@ angular.module('saac.photo', ['saac.s3Uploader'])
                     setTimeout(function () {
                         fileName = new Date().getTime() + ".jpg";
                         S3Uploader.upload(imageURI, fileName).then(function () {
-                            $scope.user.pictureurl = 'https://s3-us-west-1.amazonaws.com/sfdc-demo/' + fileName;
+                            var p = {url: 'https://s3-us-west-1.amazonaws.com/saac-static-media-content/' + fileName};
+                            Picture.create(p);
+                            $scope.pictures.push(p);
                         });
                     });
                 },
