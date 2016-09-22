@@ -37,6 +37,8 @@ angular.module('saac.photo', ['saac.s3uploader'])
 			$scope.pictures = pictures;
 		});*/
 
+		$scope.pictures = [];
+
 		$scope.addPicture = function (from) {
 
             if (!navigator.camera) {
