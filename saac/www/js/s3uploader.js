@@ -2,7 +2,7 @@ angular.module('saac.s3uploader', [])
 
 .factory('S3Uploader', function ($q, $window, $http, $ionicPopup, $rootScope) {
 
-    var signingURI = $rootScope.server.url + "/s3signing";
+    var signingURI = $rootScope.server.url + "/sign";
 
     function upload(imageURI, fileName) {
 

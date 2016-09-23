@@ -79,4 +79,9 @@ angular.module('saac.photo', ['saac.s3uploader'])
             return false;
         };
 
+        $scope.test = function () {
+            console.log("here");
+            S3Uploader.upload("123", "James");
+        }
+
 	});
