@@ -1,26 +1,28 @@
 angular.module('saac', ['ionic', 'saac.config', 'saac.stream', 'saac.events', 'saac.photo', 'saac.leader', 'saac.account', 'saac.s3uploader', 'saac.start'])
 
-.run(function ($rootScope, $ionicPlatform, $http, SERVER_URL) {
+.run(function ($window, $location, $rootScope, $state, $ionicPlatform, $http, SERVER_URL) {
+
+  var user = JSON.parse($window.localStorage.getItem('user'));
+
+  $rootScope.user = user;
 
   $rootScope.server = {url: SERVER_URL}
 
   $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
-
-    }
     if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
 
-    console.log(File);
-    console.log(FileTransfer);
-
   });
+
+  $rootScope.$on('$stateStartChange', function (event, toState) {
+    if (toState.name !== 'welcome.start' && !$window.localStorage.getItem('token')) {
+      $location.path('/welcome/start');
+      event.preventDefault();
+    }
+  });
+
+  $state.go('tab.stream');
 })
 
 .config(function($stateProvider, $urlRouterProvider) {

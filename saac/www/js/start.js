@@ -1,36 +1,43 @@
 angular.module('saac.start', [])
 
-	.config(function ($stateProvider) {
+.config(function ($stateProvider) {
 
-		$stateProvider
+  $stateProvider
 
-		.state('welcome.start', {
-			url: "/start",
-			views: {
-				'welcome-content': {
-					templateUrl: 'templates/start.html',
-					controller: 'StartCtrl'
-				}
-			}
-		})
-	})
+  .state('welcome.start', {
+   url: "/start",
+   views: {
+    'welcome-content': {
+     templateUrl: 'templates/start.html',
+     controller: 'StartCtrl'
+   }
+ }
+})
+})
 
-	.factory('UserService', function ($http, $window, $rootScope) {
-		var setUser = function(user_data) {
-			window.localStorage.starter_facebook_user = JSON.stringify(user_data);
-		};
+.factory('UserService', function ($http, $window, $rootScope) {
+  var setUser = function(user_data) {
+   window.localStorage.user = JSON.stringify(user_data);
+   window.localStorage.token = true;
+ };
 
-		var getUser = function(){
-			return JSON.parse(window.localStorage.starter_facebook_user || '{}');
-		};
+ var getUser = function() {
+   return JSON.parse(window.localStorage.user || '{}');
+ };
 
-		return {
-			getUser: getUser,
-			setUser: setUser
-		};
-	})
+ var removeUser = function() {
+  window.localStorage.removeItem('user');
+  window.localStorage.removeItem('token');
+}
 
-	.controller('StartCtrl', function ($scope, $state, $q, UserService, $ionicLoading) {
+return {
+ getUser: getUser,
+ setUser: setUser,
+ removeUser: removeUser
+};
+})
+
+.controller('StartCtrl', function ($scope, $state, $q, UserService, $ionicLoading) {
 // This is the success callback from the login method
 var fbLoginSuccess = function(response) {
 	if (!response.authResponse){
@@ -45,17 +52,17 @@ var fbLoginSuccess = function(response) {
       // For the purpose of this example I will store user data on local storage
       UserService.setUser({
       	authResponse: authResponse,
-      	userID: profileInfo.id,
+      	userId: profileInfo.id,
       	name: profileInfo.name,
       	email: profileInfo.email,
-      	picture : "http://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
+      	picture: "https://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
       });
       $ionicLoading.hide();
       $state.go('tab.stream');
-  }, function(fail){
+    }, function(fail){
       // Fail get profile info
       console.log('profile info fail', fail);
-  });
+    });
 };
 
   // This is the fail callback from the login method
@@ -93,27 +100,27 @@ var fbLoginSuccess = function(response) {
         // Check if we have our user saved
         var user = UserService.getUser('facebook');
 
-        if(!user.userID){
+        if(!user.userId){
         	getFacebookProfileInfo(success.authResponse)
         	.then(function(profileInfo) {
             // For the purpose of this example I will store user data on local storage
             UserService.setUser({
             	authResponse: success.authResponse,
-            	userID: profileInfo.id,
+            	userId: profileInfo.id,
             	name: profileInfo.name,
             	email: profileInfo.email,
-            	picture : "http://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
+            	picture: "https://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
             });
 
             $state.go('tab.stream');
-        }, function(fail){
+          }, function(fail){
             // Fail get profile info
             console.log('profile info fail', fail);
-        });
+          });
         }else{
         	$state.go('tab.stream');
         }
-    } else {
+      } else {
         // If (success.status === 'not_authorized') the user is logged in to Facebook,
         // but has not authenticated your app
         // Else the person is not logged into Facebook,
@@ -128,37 +135,7 @@ var fbLoginSuccess = function(response) {
         // Ask the permissions you need. You can learn more about
         // FB permissions here: https://developers.facebook.com/docs/facebook-login/permissions/v2.4
         facebookConnectPlugin.login(['email', 'public_profile'], fbLoginSuccess, fbLoginError);
-    }
-});
+      }
+    });
 };
-})
-
-.controller('HomeCtrl', function($scope, UserService, $ionicActionSheet, $state, $ionicLoading){
-	$scope.user = UserService.getUser();
-
-	$scope.showLogOutMenu = function() {
-		var hideSheet = $ionicActionSheet.show({
-			destructiveText: 'Logout',
-			titleText: 'Are you sure you want to logout? This app is awsome so I recommend you to stay.',
-			cancelText: 'Cancel',
-			cancel: function() {},
-			buttonClicked: function(index) {
-				return true;
-			},
-			destructiveButtonClicked: function(){
-				$ionicLoading.show({
-					template: 'Logging out...'
-				});
-
-        // Facebook logout
-        facebookConnectPlugin.logout(function(){
-        	$ionicLoading.hide();
-        	$state.go('welcome/start');
-        },
-        function(fail){
-        	$ionicLoading.hide();
-        });
-    }
-});
-	};
 })

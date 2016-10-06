@@ -17,6 +17,7 @@ angular.module('saac.photo', ['saac.s3uploader'])
 	})
 
 	.factory('Picture', function ($http, $rootScope) {
+
 		return {
 			all: function() {
 				return $http.get($rootScope.server.url + '/photos');
@@ -31,13 +32,11 @@ angular.module('saac.photo', ['saac.s3uploader'])
 	})
 
 	//Controllers
-	.controller('PhotoCtrl', function ($scope, $window, $ionicPopup, S3Uploader, Picture) {
+	.controller('PhotoCtrl', function ($scope, $rootScope, $window, $ionicPopup, S3Uploader, Picture) {
 
-		/*Picture.all().success(function(pictures) {
+		Picture.all().success(function(pictures) {
 			$scope.pictures = pictures;
-		});*/
-
-		$scope.pictures = [];
+		});
 
 		$scope.addPicture = function (from) {
 
@@ -67,9 +66,16 @@ angular.module('saac.photo', ['saac.s3uploader'])
                     setTimeout(function () {
                         fileName = new Date().getTime() + ".jpg";
                         S3Uploader.upload(imageURI, fileName).then(function () {
-                            var p = {url: 'https://s3-us-west-1.amazonaws.com/saac-static-media-content/' + fileName};
+                            var p = {
+                                    url: 'https://s3-us-west-1.amazonaws.com/saac-static-media-content/' + fileName,
+                                    userId: $rootScope.user.userId
+                        };
+                            console.log(p);
+                            console.log('creating pic');
                             Picture.create(p);
+                            console.log('done');
                             $scope.pictures.push(p);
+                            console.log($scope.pictures);
                         });
                     });
                 },
