@@ -2,10 +2,6 @@ angular.module('saac', ['ionic', 'saac.config', 'saac.stream', 'saac.events', 's
 
 .run(function ($window, $location, $rootScope, $state, $ionicPlatform, $http, SERVER_URL) {
 
-  var user = JSON.parse($window.localStorage.getItem('user'));
-
-  $rootScope.user = user;
-
   $rootScope.server = {url: SERVER_URL}
 
   $ionicPlatform.ready(function() {

@@ -1,4 +1,4 @@
-angular.module('saac.photo', ['saac.s3uploader'])
+angular.module('saac.photo', ['saac.s3uploader', 'saac.start'])
 
 	// Routes
 	.config(function ($stateProvider) {
@@ -29,7 +29,9 @@ angular.module('saac.photo', ['saac.s3uploader'])
 	})
 
 	//Controllers
-	.controller('PhotoCtrl', function ($scope, $rootScope, $window, $ionicPopup, S3Uploader, Picture) {
+	.controller('PhotoCtrl', function ($scope, $rootScope, $window, $ionicPopup, S3Uploader, Picture, UserService) {
+
+        var user = UserService.getUser();
 
 		$scope.addPicture = function (from) {
 
@@ -61,7 +63,9 @@ angular.module('saac.photo', ['saac.s3uploader'])
                         S3Uploader.upload(imageURI, fileName).then(function () {
                             var p = {
                                     url: 'https://s3.amazonaws.com/saac-static-media-content/' + fileName,
-                                    userId: $rootScope.user.userId
+                                    userId: user.userId,
+                                    points: user.points,
+                                    name: user.name
                         };
                             Picture.create(p);
                         });

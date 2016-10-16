@@ -1,4 +1,4 @@
-angular.module('saac.stream', ['saac.photo', 'saac.start'])
+angular.module('saac.stream', ['saac.photo'])
 
 	// Routes
 	.config(function ($stateProvider) {
@@ -17,12 +17,19 @@ angular.module('saac.stream', ['saac.photo', 'saac.start'])
 	})
 
 	//Controllers
-	.controller('StreamCtrl', function ($scope, $rootScope, Picture, UserService) {
-		$scope.user = UserService.getUser();
-		$scope.photos = Picture.all();
+	.controller('StreamCtrl', function ($scope, $rootScope, Picture) {
+		Picture.all().success(function (pictures) {
+			$scope.pictures = pictures;
+		});
+
+		console.log($scope.pictures);
 
 		$scope.doRefresh = function () {
-			$scope.photos = Picture.all();
+			Picture.all().success(function (pictures) {
+				$scope.pictures = pictures;
+			});
+
+			console.log($scope.pictures);
 
 			$scope.$broadcast('scroll.refreshComplete');
 		}

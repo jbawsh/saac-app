@@ -5,9 +5,9 @@
     	<!-- <ion-item  ng-repeat="thing in imgs"> -->
     		<div class="list card" ng-repeat="picture in pictures">
   				<div class="item item-avatar">
-    				<img src="https://graph.facebook.com/{{user.userId}}/picture?width=270&height=270">
-    				<h2>{{(user.name.split(" "))[0]}}</h2>
-    				<p>{{user.points}} points</p>
+    				<img src="https://graph.facebook.com/{{picture.userid}}/picture?width=270&height=270">
+    				<h2>{{(picture.name.split(" "))[0]}}</h2>
+    				<p>{{picture.points}} points</p>
   				</div>
 
   				<div class="item item-image">

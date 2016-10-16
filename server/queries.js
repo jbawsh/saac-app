@@ -21,13 +21,8 @@ var crypto = require('crypto'),
 
 function getAllPhotos(req, res, next) {
   db.any('select * from photos')
-    .then(function (data) {
-      res.status(200)
-        .json({
-          status: 'success',
-          data: data,
-          message: 'Retrieved ALL photos'
-        });
+    .then(function (pictures) {
+      return res.send(JSON.stringify(pictures));
     })
     .catch(function (err) {
       return next(err);
@@ -35,10 +30,19 @@ function getAllPhotos(req, res, next) {
 }
 
 function createPhoto(req, res, next) {
-  req.body.age = parseInt(req.body.age);
-  db.none('insert into photos(name, breed, age, sex)' +
-      'values(${name}, ${breed}, ${age}, ${sex})',
-    req.body)
+  var url = req.body.url,
+      userId = req.body.userId,
+      name = req.body.name,
+      points = req.body.points
+
+  console.log(url);
+  console.log(userId);
+  console.log(name);
+  console.log(points);
+
+  db.none('insert into photos(userId, url, points, name)' +
+      'values($1, $2, $3, $4)',
+    [userId, url, points, name])
     .then(function () {
       res.status(200)
         .json({
@@ -47,12 +51,12 @@ function createPhoto(req, res, next) {
         });
     })
     .catch(function (err) {
+      console.log(err);
       return next(err);
     });
 }
 
 function sign (req, res, next) {
-  console.log("hi");
 	var fileName = req.body.fileName,
         expiration = new Date(new Date().getTime() + 1000 * 60 * 5).toISOString();
 
@@ -72,8 +76,6 @@ function sign (req, res, next) {
     signature = crypto.createHmac('sha1', secret).update(policyBase64).digest('base64');
     var response = {bucket: bucket, awsKey: awsKey, policy: policyBase64, signature: signature};
     res.send({bucket: bucket, awsKey: awsKey, policy: policyBase64, signature: signature});
-
-    console.log('here');
 
 }
 
