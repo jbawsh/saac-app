@@ -30,10 +30,17 @@ angular.module('saac.start', [])
   window.localStorage.removeItem('token');
 }
 
+//TODO
+var setPoints = function() {
+  //if/else statement for handling points
+  return;
+}
+
 return {
  getUser: getUser,
  setUser: setUser,
- removeUser: removeUser
+ removeUser: removeUser,
+ setPoints: setPoints
 };
 })
 
@@ -55,9 +62,10 @@ var fbLoginSuccess = function(response) {
       	userId: profileInfo.id,
       	name: profileInfo.name,
       	email: profileInfo.email,
-      	picture: "https://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
+        points: 0
       });
       $ionicLoading.hide();
+      //setPoints
       $state.go('tab.stream');
     }, function(fail){
       // Fail get profile info
@@ -109,15 +117,17 @@ var fbLoginSuccess = function(response) {
             	userId: profileInfo.id,
             	name: profileInfo.name,
             	email: profileInfo.email,
-            	picture: "https://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
+            	points: 0
             });
 
+            //set Points
             $state.go('tab.stream');
           }, function(fail){
             // Fail get profile info
             console.log('profile info fail', fail);
           });
         }else{
+          //set Points
         	$state.go('tab.stream');
         }
       } else {

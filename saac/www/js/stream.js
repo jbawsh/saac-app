@@ -1,4 +1,4 @@
-angular.module('saac.stream', [])
+angular.module('saac.stream', ['saac.photo', 'saac.start'])
 
 	// Routes
 	.config(function ($stateProvider) {
@@ -17,6 +17,7 @@ angular.module('saac.stream', [])
 	})
 
 	//Controllers
-	.controller('StreamCtrl', function ($scope) {
-
+	.controller('StreamCtrl', function ($scope, $rootScope, Picture, UserService) {
+		$scope.user = UserService.getUser();
+		$scope.photos = Picture.all();
 	});

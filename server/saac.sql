@@ -10,5 +10,8 @@ CREATE TABLE IF NOT EXISTS photos (
     publishDate  timestamp default current_timestamp
   );
 
-INSERT INTO photos (userId, url)
-	VALUES (15, 'This is working');
+CREATE TABLE IF NOT EXISTS points (
+	id           BIGSERIAL,
+	userId       BIGINT,
+	points       BIGINT
+);
