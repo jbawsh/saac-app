@@ -1,5 +1,6 @@
 <ion-view view-title="Stream">
 	<ion-content>
+	<ion-refresher on-refresh="doRefresh()"></ion-refresher>
     <ion-list>
     	<!-- <ion-item  ng-repeat="thing in imgs"> -->
     		<div class="list card" ng-repeat="picture in pictures">
