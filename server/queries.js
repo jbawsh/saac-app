@@ -52,6 +52,7 @@ function createPhoto(req, res, next) {
 }
 
 function sign (req, res, next) {
+  console.log("hi");
 	var fileName = req.body.fileName,
         expiration = new Date(new Date().getTime() + 1000 * 60 * 5).toISOString();
 
@@ -65,10 +66,14 @@ function sign (req, res, next) {
             ["content-length-range", 0, 524288000]
         ]};
 
+    console.log(bucket);
+
     policyBase64 = new Buffer(JSON.stringify(policy), 'utf8').toString('base64');
     signature = crypto.createHmac('sha1', secret).update(policyBase64).digest('base64');
     var response = {bucket: bucket, awsKey: awsKey, policy: policyBase64, signature: signature};
     res.send({bucket: bucket, awsKey: awsKey, policy: policyBase64, signature: signature});
+
+    console.log('here');
 
 }
 

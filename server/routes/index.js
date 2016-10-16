@@ -7,7 +7,7 @@ var db = require('../queries');
 router.get('/photos', db.getAllPhotos);
 //router.get('/api/puppies/:id', db.getSinglePuppy);
 router.post('/photos', db.createPhoto);
-//router.put('/api/puppies/:id', db.updatePuppy);
+router.post('/sign', db.sign);
 //router.delete('/api/puppies/:id', db.removePuppy);
 
 

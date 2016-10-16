@@ -1,5 +1,19 @@
 <ion-view view-title="Stream">
 	<ion-content>
-		<!--<a class="button button-assertive button-block button-outline" ng-click="showLogOutMenu()">Log Out</a>-->
+    <ion-list>
+    	<!-- <ion-item  ng-repeat="thing in imgs"> -->
+    		<div class="list card" ng-repeat="image in images">
+  				<div class="item item-avatar">
+    				<img src="{{user.face}}">
+    				<h2>{{user.name}}</h2>
+    				<p>{{user.points}} points</p>
+  				</div>
+
+  				<div class="item item-image">
+    				<img src="{{urlForImage(image)}}">
+  				</div>
+  			</div>
+    	<!-- </ion-item> -->
+	</ion-list>
 	</ion-content>
 </ion-view>

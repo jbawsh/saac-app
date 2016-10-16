@@ -24,19 +24,12 @@ angular.module('saac.photo', ['saac.s3uploader'])
 			},
 			create: function(picture) {
 				return $http.post($rootScope.server.url + '/photos', picture);
-			}/*,
-			deleteAll: function(pictureId) {
-				return $http.delete($rootScope.server.url + '/pictures');
-			}*/
+			}
 		};
 	})
 
 	//Controllers
 	.controller('PhotoCtrl', function ($scope, $rootScope, $window, $ionicPopup, S3Uploader, Picture) {
-
-		Picture.all().success(function(pictures) {
-			$scope.pictures = pictures;
-		});
 
 		$scope.addPicture = function (from) {
 
@@ -67,15 +60,10 @@ angular.module('saac.photo', ['saac.s3uploader'])
                         fileName = new Date().getTime() + ".jpg";
                         S3Uploader.upload(imageURI, fileName).then(function () {
                             var p = {
-                                    url: 'https://s3-us-west-1.amazonaws.com/saac-static-media-content/' + fileName,
+                                    url: 'https://s3.amazonaws.com/saac-static-media-content/' + fileName,
                                     userId: $rootScope.user.userId
                         };
-                            console.log(p);
-                            console.log('creating pic');
                             Picture.create(p);
-                            console.log('done');
-                            $scope.pictures.push(p);
-                            console.log($scope.pictures);
                         });
                     });
                 },
@@ -84,10 +72,5 @@ angular.module('saac.photo', ['saac.s3uploader'])
                 }, options);
             return false;
         };
-
-        $scope.test = function () {
-            console.log("here");
-            S3Uploader.upload("123", "James");
-        }
 
 	});
