@@ -64,7 +64,6 @@ angular.module('saac.photo', ['saac.s3uploader', 'saac.start'])
                             var p = {
                                     url: 'https://s3.amazonaws.com/saac-static-media-content/' + fileName,
                                     userId: user.userId,
-                                    points: user.points,
                                     name: user.name
                         };
                             Picture.create(p);

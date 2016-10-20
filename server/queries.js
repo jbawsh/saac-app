@@ -79,8 +79,25 @@ function sign (req, res, next) {
 
 }
 
+function getUser (req, res, next) {
+  var userId = req.body.userId;
+  db.one('select * from users where userId = $1', userId)
+    .then(function (user) {
+      return res.send(JSON.stringify(user));
+    })
+    .catch(function (err) {
+      return next(err);
+    })
+}
+
+function createUser (req, res, next) {
+  
+}
+
 module.exports = {
 	getAllPhotos: getAllPhotos,
 	createPhoto: createPhoto,
-	sign: sign
+	sign: sign,
+  getUser: getUser,
+  createUser: createUser
 };

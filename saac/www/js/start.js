@@ -36,11 +36,21 @@ var setPoints = function() {
   return;
 }
 
+var getPoints = function() {
+  return;
+}
+
+var createPoints = function() {
+  return;
+}
+
 return {
  getUser: getUser,
  setUser: setUser,
  removeUser: removeUser,
- setPoints: setPoints
+ setPoints: setPoints,
+ getPoints: getPoints,
+ createPoints: createPoints
 };
 })
 
