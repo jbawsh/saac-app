@@ -5,10 +5,12 @@ var db = require('../queries');
 
 
 router.get('/photos', db.getAllPhotos);
-//router.get('/api/puppies/:id', db.getSinglePuppy);
+router.get('/user/:userId', db.getUser);
 router.post('/photos', db.createPhoto);
 router.post('/sign', db.sign);
-//router.delete('/api/puppies/:id', db.removePuppy);
+router.post('/user', db.createUser);
+router.put('/user/:userId', db.updateUser);
+
 
 
 module.exports = router;

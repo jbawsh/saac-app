@@ -80,7 +80,7 @@ function sign (req, res, next) {
 }
 
 function getUser (req, res, next) {
-  var userId = req.body.userId;
+  var userId = parseInt(req.params.userId);
   db.one('select * from users where userId = $1', userId)
     .then(function (user) {
       return res.send(JSON.stringify(user));
@@ -91,7 +91,40 @@ function getUser (req, res, next) {
 }
 
 function createUser (req, res, next) {
-  
+  var userId = req.body.userId,
+      name = req.body.name,
+      points = req.body.points
+  db.none('insert into users(userId, points, name)' +
+        'values($1, $2, $3)',
+        [userId, points, name])
+    .then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Inserted one user'
+        });
+    })
+    .catch(function (err) {
+      console.log(err);
+      return next(err);
+    });
+}
+
+function updateUser (req, res, next) {
+  var userId = parseInt(req.params.userId),
+      points = req.body.points
+  db.none('update users set points=$1 where userId=$2',
+      [points, userId])
+    .then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Updated user'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
 }
 
 module.exports = {
@@ -99,5 +132,6 @@ module.exports = {
 	createPhoto: createPhoto,
 	sign: sign,
   getUser: getUser,
-  createUser: createUser
+  createUser: createUser,
+  updateUser: updateUser
 };
