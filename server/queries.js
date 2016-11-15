@@ -33,7 +33,7 @@ function createPhoto(req, res, next) {
   var url = req.body.url,
       userId = req.body.userId,
       name = req.body.name,
-      points = req.body.points
+      points = req.body.points;
 
   console.log(url);
   console.log(userId);
@@ -79,6 +79,8 @@ function sign (req, res, next) {
 
 }
 
+//USERS
+
 function getUser (req, res, next) {
   var userId = parseInt(req.params.userId);
   db.one('select * from users where userId = $1', userId)
@@ -93,7 +95,7 @@ function getUser (req, res, next) {
 function createUser (req, res, next) {
   var userId = req.body.userId,
       name = req.body.name,
-      points = req.body.points
+      points = req.body.points;
   db.none('insert into users(userId, points, name)' +
         'values($1, $2, $3)',
         [userId, points, name])
@@ -112,7 +114,7 @@ function createUser (req, res, next) {
 
 function updateUser (req, res, next) {
   var userId = parseInt(req.params.userId),
-      points = req.body.points
+      points = req.body.points;
   db.none('update users set points=$1 where userId=$2',
       [points, userId])
     .then(function () {

@@ -1,5 +1,11 @@
 <ion-view view-title="Leaderboard">
   <ion-content class="padding">
-
+  	<div class="list card">
+      <div class="item item-avatar" ng-repeat="user in users | orderBy:'-points'">
+        <img src="https://graph.facebook.com/{{user.userId}}/picture?width=270&height=270"/>
+        <h2>{{user.name}}</h2>
+        <p>{{user.points}} points</p>
+      </div>
+    </div>
   </ion-content>
 </ion-view>

@@ -1,4 +1,4 @@
-	angular.module('saac.leader', [])
+	angular.module('saac.leader', ['saac.start'])
 
 	// Routes
 	.config(function ($stateProvider) {
@@ -17,6 +17,7 @@
 	})
 
 	//Controllers
-	.controller('LeaderCtrl', function ($scope) {
-
+	.controller('LeaderCtrl', function ($scope, UserService) {
+		$scope.users = [];
+		$scope.users.push(UserService.getUser());
 	});

@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS photos (
     id           BIGSERIAL,
     userId       BIGINT,
     url          TEXT,
+    points       BIGINT,
     name         TEXT,
     publishDate  timestamp default current_timestamp
   );
