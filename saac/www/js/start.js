@@ -87,6 +87,7 @@ var fbLoginSuccess = function(response) {
   var fbLoginError = function(error){
   	console.log('fbLoginError', error);
   	$ionicLoading.hide();
+    $state.go('tab.stream');
   };
 
   // This method is to get the user profile info from the facebook api
